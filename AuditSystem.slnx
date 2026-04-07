@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Audit System.Domain/AuditSystem.Domain.csproj" />
+  <Project Path="AuditSystem.API/AuditSystem.API.csproj" />
+  <Project Path="AuditSystem.Application/AuditSystem.Application.csproj" />
+  <Project Path="AuditSystem.Infrastructure/AuditSystem.Infrastructure.csproj" />
+</Solution>
