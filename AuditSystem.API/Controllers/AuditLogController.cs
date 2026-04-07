@@ -16,7 +16,7 @@ namespace AuditSystem.API.Controllers
             _mediator = mediator;
         }
         /*------------------------------------------------------------------*/
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAuditLogs()
         {
             var result = await _mediator.Send(new GetAllAuditsLogQuery());
@@ -27,7 +27,7 @@ namespace AuditSystem.API.Controllers
             return Ok(result);
         }
         /*------------------------------------------------------------------*/
-        [HttpGet("id")]
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetAuditLogById(Guid id)
         {
             var result = await _mediator.Send(new GetAuditLogByIdQuery(id));

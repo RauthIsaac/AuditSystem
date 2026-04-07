@@ -1,6 +1,8 @@
 using Audit_System.Domain.Interfaces;
+using AuditSystem.Application;
 using AuditSystem.Application.Interfaces;
 using AuditSystem.Application.Mapping;
+using AuditSystem.Infrastructure.BackgroundServices;
 using AuditSystem.Infrastructure.Persistence;
 using AuditSystem.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -44,10 +46,15 @@ public partial class Program
         });
         #endregion
 
-        #region AutoMapping
+
+        #region AutoMapper
         builder.Services.AddAutoMapper(typeof(MappingProfile));
         #endregion
 
+        #region In-Memeory Caching
+        builder.Services.AddSingleton<IAuditQueue, AuditQueue>();
+        builder.Services.AddHostedService<AuditBackgroundWorker>();
+        #endregion
 
         #endregion
 

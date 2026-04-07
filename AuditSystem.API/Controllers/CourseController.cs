@@ -1,4 +1,6 @@
-﻿using AuditSystem.Application.Features.Course.Queries;
+﻿using AuditSystem.Application.Features.Course.Commands;
+using AuditSystem.Application.Features.Course.DTOs;
+using AuditSystem.Application.Features.Course.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +18,7 @@ namespace AuditSystem.API.Controllers
             _mediator = mediator;
         }
         /*------------------------------------------------------------------*/
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllCourses()
         {
             var result = await _mediator.Send(new GetAllCoursesQuery());
@@ -27,7 +29,7 @@ namespace AuditSystem.API.Controllers
             return Ok(result);
         }
         /*------------------------------------------------------------------*/
-        [HttpGet("id")]
+        [HttpGet("GetCourseById/{id}")]
         public async Task<IActionResult> GetCourseById(Guid id)
         {
             var result = await _mediator.Send(new GetCourceByIdQuery(id));
@@ -38,6 +40,40 @@ namespace AuditSystem.API.Controllers
             return Ok(result);
         }
         /*------------------------------------------------------------------*/
+        [HttpPost("CreateCourse")]
+        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok(result);
+        }
+        /*------------------------------------------------------------------*/
+        [HttpPut("UpdateCourse")]
+        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok(result);
+        }
+        /*------------------------------------------------------------------*/
+        [HttpDelete("DeleteCourse/{id}")]
+        public async Task<IActionResult> DeleteCourse(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteCourseCommand(id));
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Message);
+            }
+            return Ok(result);
+        }
+        /*------------------------------------------------------------------*/
+
 
     }
 }

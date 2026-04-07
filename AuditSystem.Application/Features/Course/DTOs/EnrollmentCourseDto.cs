@@ -5,14 +5,12 @@ using System.Text;
 
 namespace AuditSystem.Application.Features.Course.DTOs
 {
-    public class CourseDto
+    public class EnrollmentCourseDto
     {
         public Guid Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? Author { get; set; }
         public decimal Price { get; set; }
-
-        public IEnumerable<EnrollmentDto> Enrollments { get; set; }
     }
 }

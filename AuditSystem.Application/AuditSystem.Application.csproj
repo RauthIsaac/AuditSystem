@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Features\AuditLog\Commands\" />
-    <Folder Include="Features\Course\Commands\" />
-    <Folder Include="Features\Enrollments\Commands\" />
     <Folder Include="Features\User\Commands\" />
   </ItemGroup>
 

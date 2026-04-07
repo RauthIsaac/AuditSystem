@@ -1,4 +1,4 @@
-﻿namespace YourProject.Application.Wrappers;
+﻿namespace AuditSystem.Application.Wrappers;
 
 public class RequestResponse<T>
 {

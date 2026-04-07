@@ -92,10 +92,10 @@ namespace AuditSystem.Infrastructure.Persistence
                           .OnDelete(DeleteBehavior.Restrict);
 
                     entity.HasData(
-                        new Enrollment { Id = enrollment1Id, UserId = user1Id, CourseId = course1Id, Timestamp = new DateTime(2026, 1, 1) },
-                        new Enrollment { Id = enrollment2Id, UserId = user1Id, CourseId = course2Id, Timestamp = new DateTime(2026, 1, 1) },
-                        new Enrollment { Id = enrollment3Id, UserId = user2Id, CourseId = course2Id, Timestamp = new DateTime(2026, 1, 1) },
-                        new Enrollment { Id = enrollment4Id, UserId = user2Id, CourseId = course3Id, Timestamp = new DateTime(2026, 1, 1) }
+                        new Enrollment { Id = enrollment1Id, UserId = user1Id, CourseId = course1Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = true },
+                        new Enrollment { Id = enrollment2Id, UserId = user1Id, CourseId = course2Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = false },
+                        new Enrollment { Id = enrollment3Id, UserId = user2Id, CourseId = course2Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = true },
+                        new Enrollment { Id = enrollment4Id, UserId = user2Id, CourseId = course3Id, Timestamp = new DateTime(2026, 1, 1), IsPaid  = true }
                        );
                 });
                 #endregion

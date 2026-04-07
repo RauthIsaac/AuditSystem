@@ -1,5 +1,6 @@
 ﻿using Audit_System.Domain.Entities;
 using AuditSystem.Application.Features.AuditLog.DTOs;
+using AuditSystem.Application.Features.Course.Commands;
 using AuditSystem.Application.Features.Course.DTOs;
 using AuditSystem.Application.Features.Enrollments.DTOs;
 using AuditSystem.Application.Features.User.DTOs;
@@ -33,7 +34,32 @@ namespace AuditSystem.Application.Mapping
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.Enrollments, opt => opt.MapFrom(src => src.Enrollments))
                 .ReverseMap();
+
+            CreateMap<CreateCourseCommand, Course>()
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ReverseMap();
+
+            CreateMap<UpdateCourseCommand, Course>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.Enrollments, opt => opt.MapFrom(src => src.Enrollments))
+                .ReverseMap();
+
+            CreateMap<EnrollmentCourseDto, Course>()
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ReverseMap();
+
             #endregion
 
             #region Enrollment Mapping
@@ -42,6 +68,7 @@ namespace AuditSystem.Application.Mapping
                 .ForMember(dest => dest.Timestamp, opt => opt.MapFrom(src => src.Timestamp))
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
                 .ForMember(dest => dest.Course, opt => opt.MapFrom(src => src.Course))
+                .ForMember(dest => dest.IsPaid, opt => opt.MapFrom(src => src.IsPaid))
                 .ReverseMap();
             #endregion
 

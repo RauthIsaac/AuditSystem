@@ -11,6 +11,7 @@ namespace AuditSystem.Application.Features.Enrollments.DTOs
         public Guid Id { get; set; }
         public DateTime Timestamp { get; set; }
         public UserDto User { get; set; }
-        public CourseDto Course { get; set; }
+        public EnrollmentCourseDto Course { get; set; }
+        public bool IsPaid { get; set; }
     }
 }

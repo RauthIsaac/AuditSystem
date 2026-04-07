@@ -44,19 +44,23 @@ namespace AuditSystem.Infrastructure.Persistence.Repositories
             return enrollment;
         }
         /*------------------------------------------------------------------*/
-        public Task AddAsync(Enrollment enrollment)
+        public async Task AddAsync(Enrollment enrollment)
         {
-            throw new NotImplementedException();
+            await _context.Enrollments.AddAsync(enrollment);
         }
         /*------------------------------------------------------------------*/
-        public Task UpdateAsync(Enrollment enrollment)
+        public async Task UpdateAsync(Enrollment enrollment)
         {
-            throw new NotImplementedException();
+            _context.Entry(enrollment).State = EntityState.Modified;
         }
         /*------------------------------------------------------------------*/
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var enrollment = await _context.Enrollments.FirstOrDefaultAsync(c => c.Id == id);
+            if (enrollment != null)
+            {
+                _context.Enrollments.Remove(enrollment);
+            }
         }
         /*------------------------------------------------------------------*/
     }

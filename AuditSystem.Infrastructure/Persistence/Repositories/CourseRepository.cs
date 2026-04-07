@@ -38,19 +38,23 @@ namespace AuditSystem.Infrastructure.Persistence.Repositories
             return course;
         }
         /*------------------------------------------------------------------*/
-        public Task AddAsync(Course course)
+        public async Task AddAsync(Course course)
         {
-            throw new NotImplementedException();
+            await _context.Courses.AddAsync(course);
         }
         /*------------------------------------------------------------------*/
-        public Task UpdateAsync(Course course)
+        public async Task UpdateAsync(Course course)
         {
-            throw new NotImplementedException();
+            _context.Courses.Update(course);
         }
         /*------------------------------------------------------------------*/
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+            if (course != null) 
+            {
+                _context.Courses.Remove(course);
+            }
         }
         /*------------------------------------------------------------------*/
     }

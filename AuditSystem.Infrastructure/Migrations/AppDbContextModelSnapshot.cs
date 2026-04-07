@@ -211,6 +211,9 @@ namespace AuditSystem.Infrastructure.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
@@ -230,6 +233,7 @@ namespace AuditSystem.Infrastructure.Migrations
                         {
                             Id = new Guid("e1e1e1e1-1111-1111-1111-e1e1e1e1e1e1"),
                             CourseId = new Guid("c1c1c1c1-1111-1111-1111-c1c1c1c1c1c1"),
+                            IsPaid = true,
                             Timestamp = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d")
                         },
@@ -237,6 +241,7 @@ namespace AuditSystem.Infrastructure.Migrations
                         {
                             Id = new Guid("e2e2e2e2-2222-2222-2222-e2e2e2e2e2e2"),
                             CourseId = new Guid("c2c2c2c2-2222-2222-2222-c2c2c2c2c2c2"),
+                            IsPaid = false,
                             Timestamp = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d")
                         },
@@ -244,6 +249,7 @@ namespace AuditSystem.Infrastructure.Migrations
                         {
                             Id = new Guid("e3e3e3e3-3333-3333-3333-e3e3e3e3e3e3"),
                             CourseId = new Guid("c2c2c2c2-2222-2222-2222-c2c2c2c2c2c2"),
+                            IsPaid = true,
                             Timestamp = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e")
                         },
@@ -251,6 +257,7 @@ namespace AuditSystem.Infrastructure.Migrations
                         {
                             Id = new Guid("e4e4e4e4-4444-4444-4444-e4e4e4e4e4e4"),
                             CourseId = new Guid("c3c3c3c3-3333-3333-3333-c3c3c3c3c3c3"),
+                            IsPaid = true,
                             Timestamp = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e")
                         });

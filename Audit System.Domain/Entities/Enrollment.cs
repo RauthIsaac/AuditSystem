@@ -8,6 +8,7 @@ namespace Audit_System.Domain.Entities
     {
         public Guid Id { get; set; }
         public DateTime Timestamp { get; set; }
+        public bool IsPaid { get; set; }
 
         /*------------------------------------------------------------------*/
         /*----------------------Navigation Properties-----------------------*/

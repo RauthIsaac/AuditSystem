@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AuditSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreateFixed : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,7 @@ namespace AuditSystem.Infrastructure.Migrations
                     Action = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EntityName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EntityId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Metadata = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -64,9 +64,10 @@ namespace AuditSystem.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,19 +88,19 @@ namespace AuditSystem.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "AuditLogs",
-                columns: new[] { "Id", "Action", "CreatedAt", "EntityId", "EntityName", "Metadata", "UserId" },
+                columns: new[] { "Id", "Action", "EntityId", "EntityName", "Metadata", "Timestamp", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("f1f1f1f1-1111-1111-1111-f1f1f1f1f1f1"), "INSERT", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "00000000-0000-0000-0000-000000000001", "User", "Initial System Admin Created.", new Guid("00000000-0000-0000-0000-000000000001") },
-                    { new Guid("f2f2f2f2-2222-2222-2222-f2f2f2f2f2f2"), "INSERT", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d", "User", "Admin created user: Ali", new Guid("00000000-0000-0000-0000-000000000001") },
-                    { new Guid("f3f3f3f3-3333-3333-3333-f3f3f3f3f3f3"), "INSERT", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e", "User", "Admin created user: Sara", new Guid("00000000-0000-0000-0000-000000000001") },
-                    { new Guid("f4f4f4f4-4444-4444-4444-f4f4f4f4f4f4"), "INSERT", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "c1c1c1c1-1111-1111-1111-c1c1c1c1c1c1", "Course", "Created Course: C# Basics", new Guid("00000000-0000-0000-0000-000000000001") },
-                    { new Guid("f5f5f5f5-5555-5555-5555-f5f5f5f5f5f5"), "INSERT", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "c2c2c2c2-2222-2222-2222-c2c2c2c2c2c2", "Course", "Created Course: ASP.NET Core", new Guid("00000000-0000-0000-0000-000000000001") },
-                    { new Guid("f6f6f6f6-6666-6666-6666-f6f6f6f6f6f6"), "INSERT", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "c3c3c3c3-3333-3333-3333-c3c3c3c3c3c3", "Course", "Created Course: Entity Framework Core", new Guid("00000000-0000-0000-0000-000000000001") },
-                    { new Guid("f7f7f7f7-7777-7777-7777-f7f7f7f7f7f7"), "ENROLL", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "e1e1e1e1-1111-1111-1111-e1e1e1e1e1e1", "Enrollment", "Ali enrolled in C# Basics", new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") },
-                    { new Guid("f8f8f8f8-8888-8888-8888-f8f8f8f8f8f8"), "ENROLL", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "e2e2e2e2-2222-2222-2222-e2e2e2e2e2e2", "Enrollment", "Ali enrolled in ASP.NET Core", new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") },
-                    { new Guid("f9f9f9f9-9999-9999-9999-f9f9f9f9f9f9"), "ENROLL", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "e3e3e3e3-3333-3333-3333-e3e3e3e3e3e3", "Enrollment", "Sara enrolled in ASP.NET Core", new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e") },
-                    { new Guid("fafafafa-aaaa-aaaa-aaaa-fafafafafafa"), "ENROLL", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "e4e4e4e4-4444-4444-4444-e4e4e4e4e4e4", "Enrollment", "Sara enrolled in Entity Framework Core", new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e") }
+                    { new Guid("f1f1f1f1-1111-1111-1111-f1f1f1f1f1f1"), "INSERT", "00000000-0000-0000-0000-000000000001", "User", "Initial System Admin Created.", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000001") },
+                    { new Guid("f2f2f2f2-2222-2222-2222-f2f2f2f2f2f2"), "INSERT", "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d", "User", "Admin created user: Ali", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000001") },
+                    { new Guid("f3f3f3f3-3333-3333-3333-f3f3f3f3f3f3"), "INSERT", "b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e", "User", "Admin created user: Sara", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000001") },
+                    { new Guid("f4f4f4f4-4444-4444-4444-f4f4f4f4f4f4"), "INSERT", "c1c1c1c1-1111-1111-1111-c1c1c1c1c1c1", "Course", "Created Course: C# Basics", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000001") },
+                    { new Guid("f5f5f5f5-5555-5555-5555-f5f5f5f5f5f5"), "INSERT", "c2c2c2c2-2222-2222-2222-c2c2c2c2c2c2", "Course", "Created Course: ASP.NET Core", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000001") },
+                    { new Guid("f6f6f6f6-6666-6666-6666-f6f6f6f6f6f6"), "INSERT", "c3c3c3c3-3333-3333-3333-c3c3c3c3c3c3", "Course", "Created Course: Entity Framework Core", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000001") },
+                    { new Guid("f7f7f7f7-7777-7777-7777-f7f7f7f7f7f7"), "ENROLL", "e1e1e1e1-1111-1111-1111-e1e1e1e1e1e1", "Enrollment", "Ali enrolled in C# Basics", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") },
+                    { new Guid("f8f8f8f8-8888-8888-8888-f8f8f8f8f8f8"), "ENROLL", "e2e2e2e2-2222-2222-2222-e2e2e2e2e2e2", "Enrollment", "Ali enrolled in ASP.NET Core", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") },
+                    { new Guid("f9f9f9f9-9999-9999-9999-f9f9f9f9f9f9"), "ENROLL", "e3e3e3e3-3333-3333-3333-e3e3e3e3e3e3", "Enrollment", "Sara enrolled in ASP.NET Core", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e") },
+                    { new Guid("fafafafa-aaaa-aaaa-aaaa-fafafafafafa"), "ENROLL", "e4e4e4e4-4444-4444-4444-e4e4e4e4e4e4", "Enrollment", "Sara enrolled in Entity Framework Core", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e") }
                 });
 
             migrationBuilder.InsertData(
@@ -124,13 +125,13 @@ namespace AuditSystem.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Enrollments",
-                columns: new[] { "Id", "CourseId", "EnrollmentDate", "UserId" },
+                columns: new[] { "Id", "CourseId", "IsPaid", "Timestamp", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("e1e1e1e1-1111-1111-1111-e1e1e1e1e1e1"), new Guid("c1c1c1c1-1111-1111-1111-c1c1c1c1c1c1"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") },
-                    { new Guid("e2e2e2e2-2222-2222-2222-e2e2e2e2e2e2"), new Guid("c2c2c2c2-2222-2222-2222-c2c2c2c2c2c2"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") },
-                    { new Guid("e3e3e3e3-3333-3333-3333-e3e3e3e3e3e3"), new Guid("c2c2c2c2-2222-2222-2222-c2c2c2c2c2c2"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e") },
-                    { new Guid("e4e4e4e4-4444-4444-4444-e4e4e4e4e4e4"), new Guid("c3c3c3c3-3333-3333-3333-c3c3c3c3c3c3"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e") }
+                    { new Guid("e1e1e1e1-1111-1111-1111-e1e1e1e1e1e1"), new Guid("c1c1c1c1-1111-1111-1111-c1c1c1c1c1c1"), true, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") },
+                    { new Guid("e2e2e2e2-2222-2222-2222-e2e2e2e2e2e2"), new Guid("c2c2c2c2-2222-2222-2222-c2c2c2c2c2c2"), false, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d") },
+                    { new Guid("e3e3e3e3-3333-3333-3333-e3e3e3e3e3e3"), new Guid("c2c2c2c2-2222-2222-2222-c2c2c2c2c2c2"), true, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e") },
+                    { new Guid("e4e4e4e4-4444-4444-4444-e4e4e4e4e4e4"), new Guid("c3c3c3c3-3333-3333-3333-c3c3c3c3c3c3"), true, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b2c3d4e5-f6a7-5b8c-9d0e-1f2a3b4c5d6e") }
                 });
 
             migrationBuilder.CreateIndex(

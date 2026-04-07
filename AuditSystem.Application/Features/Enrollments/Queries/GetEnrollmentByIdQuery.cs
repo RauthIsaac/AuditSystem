@@ -3,7 +3,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using YourProject.Application.Wrappers;
+using AuditSystem.Application.Wrappers;
 
 namespace AuditSystem.Application.Features.Enrollments.Queries
 {
