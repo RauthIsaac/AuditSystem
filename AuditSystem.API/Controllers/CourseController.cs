@@ -2,6 +2,7 @@
 using AuditSystem.Application.Features.Course.DTOs;
 using AuditSystem.Application.Features.Course.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,7 @@ namespace AuditSystem.API.Controllers
         }
         /*------------------------------------------------------------------*/
         [HttpPost("CreateCourse")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCourse([FromBody] CreateCourseCommand command)
         {
             var result = await _mediator.Send(command);
@@ -52,6 +54,7 @@ namespace AuditSystem.API.Controllers
         }
         /*------------------------------------------------------------------*/
         [HttpPut("UpdateCourse")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseCommand command)
         {
             var result = await _mediator.Send(command);
@@ -63,6 +66,7 @@ namespace AuditSystem.API.Controllers
         }
         /*------------------------------------------------------------------*/
         [HttpDelete("DeleteCourse/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCourse(Guid id)
         {
             var result = await _mediator.Send(new DeleteCourseCommand(id));

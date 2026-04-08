@@ -2,8 +2,10 @@
 using AuditSystem.Application.Features.Enrollments.Commands;
 using AuditSystem.Application.Features.Enrollments.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AuditSystem.API.Controllers
 {
@@ -19,6 +21,7 @@ namespace AuditSystem.API.Controllers
         }
         /*------------------------------------------------------------------*/
         [HttpGet("GetAll")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllEnrollments()
         {
              var result = await _mediator.Send(new GetAllEnrollmentsQuery());
@@ -30,6 +33,7 @@ namespace AuditSystem.API.Controllers
         }
         /*------------------------------------------------------------------*/
         [HttpGet("GetEnrollmentByID/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetEnrollmentById(Guid id)
         {
             var result = await _mediator.Send(new GetEnrollmentByIdQuery(id));
@@ -41,30 +45,47 @@ namespace AuditSystem.API.Controllers
         }
         /*------------------------------------------------------------------*/
         [HttpPost("CreateEnrollment")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> CreateEnrollment([FromBody] CreateEnrollmentCommand command)
         {
-            var result = await _mediator.Send(command);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            var userId = Guid.Parse(userIdClaim);
+
+            var commandWithUser = command with { UserId = userId };
+
+            var result = await _mediator.Send(commandWithUser);
             if (!result.IsSuccess)
-            {
                 return BadRequest(result.Message);
-            }
+
             return Ok(result);
         }
         /*------------------------------------------------------------------*/
         [HttpPut("UpdateEnrollmentStatus/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateEnrollmentPaymentStatus([FromRoute] Guid id, [FromQuery] bool isPaid)
         {
-            var command = new UpdateEnrollmentPaymentStatusCommand(id, isPaid);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            var userId = Guid.Parse(userIdClaim);
+
+            var command = new UpdateEnrollmentPaymentStatusCommand(id, isPaid, userId);
             var result = await _mediator.Send(command);
+
             if (result.IsSuccess)
-            {
                 return Ok(result);
-            }
+
             return BadRequest(result);
         }
         /*------------------------------------------------------------------*/
         [HttpDelete("Delete/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteEnrollment(Guid id)
         {
             var result = await _mediator.Send(new DeleteEnrollmentCommand(id));

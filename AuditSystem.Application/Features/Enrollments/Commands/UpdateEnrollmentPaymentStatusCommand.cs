@@ -1,4 +1,5 @@
 ﻿using AuditSystem.Application.Features.Enrollments.DTOs;
+using AuditSystem.Application.Features.User.Queries;
 using AuditSystem.Application.Wrappers;
 using MediatR;
 using System;
@@ -11,10 +12,12 @@ namespace AuditSystem.Application.Features.Enrollments.Commands
     {
         public Guid Id;
         public bool IsPaid;
-        public UpdateEnrollmentPaymentStatusCommand(Guid id, bool isPaid)
+        public Guid UserId;
+        public UpdateEnrollmentPaymentStatusCommand(Guid id, bool isPaid,Guid userId)
         {
             Id = id;
             IsPaid = isPaid;
+            UserId = userId;
         }
     }
 }

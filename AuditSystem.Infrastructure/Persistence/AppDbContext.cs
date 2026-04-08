@@ -56,9 +56,9 @@ namespace AuditSystem.Infrastructure.Persistence
                 entity.HasKey(u => u.Id);
 
                 entity.HasData(
-                    new User { Id = adminId, Name = "Admin", Email = "admin@gmail.com", PasswordHash = "Admin@123" },
-                    new User { Id = user1Id, Name = "Ali", Email = "ali@gmail.com", PasswordHash = "Ali@123" },
-                    new User { Id = user2Id, Name = "Sara", Email = "sara@gmail.com", PasswordHash = "Sara@123" }
+                    new User { Id = adminId, Name = "Admin", Email = "admin@gmail.com", PasswordHash = "Admin@123" , Role = "Admin" },
+                    new User { Id = user1Id, Name = "Ali", Email = "ali@gmail.com", PasswordHash = "Ali@123", Role ="User" },
+                    new User { Id = user2Id, Name = "Sara", Email = "sara@gmail.com", PasswordHash = "Sara@123", Role = "User" }
                     );
                 #endregion
 

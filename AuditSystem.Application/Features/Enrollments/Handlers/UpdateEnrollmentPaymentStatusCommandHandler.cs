@@ -43,7 +43,7 @@ namespace AuditSystem.Application.Features.Enrollments.Handlers
             {
                 _auditQueue.QueueEvent(new AuditEvent
                 {
-                    UserId = Guid.Empty,
+                    UserId = request.UserId,
                     Action = "UpdateEnrollmentStatus",
                     EntityName = "Enrollment",
                     EntityId = enrollmentEntity.Id.ToString(),

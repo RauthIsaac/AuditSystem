@@ -1,5 +1,6 @@
 ﻿using AuditSystem.Application.Features.AuditLog.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace AuditSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class AuditLogController : ControllerBase
     {
         /*------------------------------------------------------------------*/
