@@ -45,12 +45,12 @@ namespace AuditSystem.Application.Mapping
                 .ReverseMap();
 
             CreateMap<UpdateCourseCommand, Course>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
-                .ForMember(dest => dest.Enrollments, opt => opt.MapFrom(src => src.Enrollments))
+                .ForMember(dest => dest.Enrollments, opt => opt.Ignore())
                 .ReverseMap();
 
             CreateMap<EnrollmentCourseDto, Course>()

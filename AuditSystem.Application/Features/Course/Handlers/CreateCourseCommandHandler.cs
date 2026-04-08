@@ -36,7 +36,7 @@ namespace AuditSystem.Application.Features.Course.Handlers
             {
                 _auditQueue.QueueEvent(new AuditEvent
                 {
-                    UserId = Guid.Empty,
+                    UserId = request.UserId,
                     Action = "CreateCourse",
                     EntityName = "Course",
                     EntityId = courseEntity.Id.ToString(),

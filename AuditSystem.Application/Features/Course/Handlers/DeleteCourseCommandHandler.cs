@@ -37,7 +37,7 @@ namespace AuditSystem.Application.Features.Course.Handlers
             {
                 _auditQueue.QueueEvent(new AuditEvent
                 {
-                    UserId = Guid.Empty,
+                    UserId = request.UserId,
                     Action = "DeleteCourse",
                     EntityName = "Course",
                     EntityId = course.Id.ToString(),

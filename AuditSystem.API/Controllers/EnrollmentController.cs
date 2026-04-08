@@ -1,5 +1,6 @@
 ﻿using AuditSystem.Application.Features.Course.Commands;
 using AuditSystem.Application.Features.Enrollments.Commands;
+using AuditSystem.Application.Features.Enrollments.DTOs;
 using AuditSystem.Application.Features.Enrollments.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -46,18 +47,21 @@ namespace AuditSystem.API.Controllers
         /*------------------------------------------------------------------*/
         [HttpPost("CreateEnrollment")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> CreateEnrollment([FromBody] CreateEnrollmentCommand command)
+        public async Task<IActionResult> CreateEnrollment([FromBody] CreateEnrollmentRequest request)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userIdClaim))
                 return Unauthorized();
 
-            var userId = Guid.Parse(userIdClaim);
+            var command = new CreateEnrollmentCommand
+            {
+                UserId = Guid.Parse(userIdClaim),
+                CourseId = request.CourseId
+            };
 
-            var commandWithUser = command with { UserId = userId };
+            var result = await _mediator.Send(command);
 
-            var result = await _mediator.Send(commandWithUser);
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
 

@@ -1,10 +1,12 @@
 ﻿using AuditSystem.Application.Features.Course.Commands;
 using AuditSystem.Application.Features.Course.DTOs;
 using AuditSystem.Application.Features.Course.Queries;
+using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AuditSystem.API.Controllers
 {
@@ -43,13 +45,27 @@ namespace AuditSystem.API.Controllers
         /*------------------------------------------------------------------*/
         [HttpPost("CreateCourse")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseCommand command)
+        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseRequest request)
         {
-            var result = await _mediator.Send(command);
-            if (!result.IsSuccess)
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            var command = new CreateCourseCommand
             {
+                UserId = Guid.Parse(userIdClaim),
+                Title = request.Title,
+                Description = request.Description,
+                Author = request.Author,
+                Price = request.Price
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
                 return BadRequest(result.Message);
-            }
+
             return Ok(result);
         }
         /*------------------------------------------------------------------*/
@@ -57,11 +73,18 @@ namespace AuditSystem.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseCommand command)
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            command.UserId = Guid.Parse(userIdClaim);
+
             var result = await _mediator.Send(command);
+
             if (!result.IsSuccess)
-            {
                 return BadRequest(result.Message);
-            }
+
             return Ok(result);
         }
         /*------------------------------------------------------------------*/
@@ -69,15 +92,18 @@ namespace AuditSystem.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCourse(Guid id)
         {
-            var result = await _mediator.Send(new DeleteCourseCommand(id));
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            var result = await _mediator.Send(new DeleteCourseCommand(id, Guid.Parse(userIdClaim)));
+
             if (!result.IsSuccess)
-            {
                 return NotFound(result.Message);
-            }
+
             return Ok(result);
         }
         /*------------------------------------------------------------------*/
-
-
     }
 }

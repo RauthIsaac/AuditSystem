@@ -8,6 +8,7 @@ using AuditSystem.Infrastructure.Persistence.Repositories;
 using AuditSystem.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -87,8 +88,9 @@ public partial class Program
 
         #region Database Context
         builder.Services.AddDbContext<AppDbContext>(options =>
-                        options.UseSqlServer(
-                            builder.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                   .ConfigureWarnings(warnings =>
+                       warnings.Ignore(RelationalEventId.PendingModelChangesWarning)));
         #endregion
 
 

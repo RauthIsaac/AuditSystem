@@ -7,5 +7,5 @@ using System.Text;
 
 namespace AuditSystem.Application.Features.Auth.Commands
 {
-    public record LoginCommand(string Email, string Password) : IRequest<RequestResponse<LoginResponseDto?>>;
+    public record RegisterCommand(string Name, string Email, string Password): IRequest<RequestResponse<LoginResponseDto>>;
 }

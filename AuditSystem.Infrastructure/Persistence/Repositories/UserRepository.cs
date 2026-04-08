@@ -41,9 +41,9 @@ namespace AuditSystem.Infrastructure.Persistence.Repositories
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
         /*------------------------------------------------------------------*/
-        public Task AddAsync(User user)
+        public async Task AddAsync(User user)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(user);
         }
         /*------------------------------------------------------------------*/
         public Task UpdateAsync(User user)

@@ -8,6 +8,7 @@ namespace AuditSystem.Infrastructure.Persistence
 {
     public class AppDbContext : DbContext
     {
+        /*------------------------------------------------------------------*/
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
@@ -56,56 +57,57 @@ namespace AuditSystem.Infrastructure.Persistence
                 entity.HasKey(u => u.Id);
 
                 entity.HasData(
-                    new User { Id = adminId, Name = "Admin", Email = "admin@gmail.com", PasswordHash = "Admin@123" , Role = "Admin" },
-                    new User { Id = user1Id, Name = "Ali", Email = "ali@gmail.com", PasswordHash = "Ali@123", Role ="User" },
-                    new User { Id = user2Id, Name = "Sara", Email = "sara@gmail.com", PasswordHash = "Sara@123", Role = "User" }
+                    new User { Id = adminId, Name = "Admin", Email = "admin@gmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"), Role = "Admin" },
+                    new User { Id = user1Id, Name = "Ali", Email = "ali@gmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Ali@123"), Role = "User" },
+                    new User { Id = user2Id, Name = "Sara", Email = "sara@gmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Sara@123"), Role = "User" }
                     );
-                #endregion
+            });
+            #endregion
 
-                #region Course Configration
-                modelBuilder.Entity<Course>(entity =>
-                {
-                    entity.HasKey(c => c.Id);
-                    entity.Property(c => c.Price).HasColumnType("decimal(18,2)");
+            #region Course Configration
+            modelBuilder.Entity<Course>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.Price).HasColumnType("decimal(18,2)");
 
-                    entity.HasData(
+                entity.HasData(
                         new Course { Id = course1Id, Title = "C# Basics", Description = "Learn the fundamentals of C# programming.", Author= "Suzanne Collin", Price= 200m },
                         new Course { Id = course2Id, Title = "ASP.NET Core", Description = "Build web applications using ASP.NET Core.", Author = "Andrew Lock", Price = 200m },
                         new Course { Id = course3Id, Title = "Entity Framework Core", Description = "Master data access with Entity Framework Core.", Author = "Julia Lerman", Price = 300m }
                         );
-                });
-                #endregion
+            });
+            #endregion
 
-                #region Enrollment Configration
-                modelBuilder.Entity<Enrollment>(entity =>
-                {
-                    entity.HasKey(e => e.Id);
+            #region Enrollment Configration
+            modelBuilder.Entity<Enrollment>(entity =>
+            {
+                entity.HasKey(e => e.Id);
 
-                    entity.HasOne(e => e.User)
-                          .WithMany(u => u.Enrollments)
-                          .HasForeignKey(e => e.UserId)
-                          .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(e => e.User)
+                      .WithMany(u => u.Enrollments)
+                      .HasForeignKey(e => e.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
 
-                    entity.HasOne(e => e.Course)
-                          .WithMany(c => c.Enrollments)
-                          .HasForeignKey(e => e.CourseId)
-                          .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(e => e.Course)
+                      .WithMany(c => c.Enrollments)
+                      .HasForeignKey(e => e.CourseId)
+                      .OnDelete(DeleteBehavior.Restrict);
 
-                    entity.HasData(
-                        new Enrollment { Id = enrollment1Id, UserId = user1Id, CourseId = course1Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = true },
-                        new Enrollment { Id = enrollment2Id, UserId = user1Id, CourseId = course2Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = false },
-                        new Enrollment { Id = enrollment3Id, UserId = user2Id, CourseId = course2Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = true },
-                        new Enrollment { Id = enrollment4Id, UserId = user2Id, CourseId = course3Id, Timestamp = new DateTime(2026, 1, 1), IsPaid  = true }
-                       );
-                });
-                #endregion
+                entity.HasData(
+                    new Enrollment { Id = enrollment1Id, UserId = user1Id, CourseId = course1Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = true },
+                    new Enrollment { Id = enrollment2Id, UserId = user1Id, CourseId = course2Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = false },
+                    new Enrollment { Id = enrollment3Id, UserId = user2Id, CourseId = course2Id, Timestamp = new DateTime(2026, 1, 1) , IsPaid = true },
+                    new Enrollment { Id = enrollment4Id, UserId = user2Id, CourseId = course3Id, Timestamp = new DateTime(2026, 1, 1), IsPaid  = true }
+                   );
+            });
+            #endregion
 
-                #region AuditLog Configration
-                modelBuilder.Entity<AuditLog>(entity =>
-                {
-                    entity.HasKey(a => a.Id);
+            #region AuditLog Configration
+            modelBuilder.Entity<AuditLog>(entity =>
+            {
+                entity.HasKey(a => a.Id);
 
-                    entity.HasData(
+                entity.HasData(
                         new AuditLog { Id = log1Id, UserId = adminId, Action = "INSERT", EntityName = "User", EntityId = adminId.ToString(), Timestamp = new DateTime(2026, 1, 1), Metadata = "Initial System Admin Created." },
                         new AuditLog { Id = log2Id, UserId = adminId, Action = "INSERT", EntityName = "User", EntityId = user1Id.ToString(), Timestamp = new DateTime(2026, 1, 1), Metadata = "Admin created user: Ali" },
                         new AuditLog { Id = log3Id, UserId = adminId, Action = "INSERT", EntityName = "User", EntityId = user2Id.ToString(), Timestamp = new DateTime(2026, 1, 1), Metadata = "Admin created user: Sara" },
@@ -119,11 +121,9 @@ namespace AuditSystem.Infrastructure.Persistence
                         new AuditLog { Id = log9Id, UserId = user2Id, Action = "ENROLL", EntityName = "Enrollment", EntityId = enrollment3Id.ToString(), Timestamp = new DateTime(2026, 1, 1), Metadata = "Sara enrolled in ASP.NET Core" },
                         new AuditLog { Id = log10Id, UserId = user2Id, Action = "ENROLL", EntityName = "Enrollment", EntityId = enrollment4Id.ToString(), Timestamp = new DateTime(2026, 1, 1), Metadata = "Sara enrolled in Entity Framework Core" }
                         );
-                });
-                #endregion
-
-
             });
+            #endregion
+
         }
     }
 }

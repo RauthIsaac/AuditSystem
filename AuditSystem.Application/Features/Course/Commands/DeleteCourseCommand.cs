@@ -9,9 +9,11 @@ namespace AuditSystem.Application.Features.Course.Commands
     public record DeleteCourseCommand : IRequest<RequestResponse<bool>>
     {
         public Guid Id { get; set; }
-        public DeleteCourseCommand(Guid id)
+        public Guid UserId { get; set; }
+        public DeleteCourseCommand(Guid id, Guid userId)
         {
             Id = id;
+            UserId = userId;
         }
     }
 }

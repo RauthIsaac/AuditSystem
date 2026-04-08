@@ -45,8 +45,8 @@ namespace AuditSystem.Application.Features.Course.Handlers
             {
                 _auditQueue.QueueEvent(new AuditEvent
                 {
-                    UserId = Guid.Empty,
-                    Action = "CreateCourse",
+                    UserId = request.UserId,
+                    Action = "UpdateCourse",
                     EntityName = "Course",
                     EntityId = courseEntity.Id.ToString(),
                     Metadata = $"Admin has updated a course : {courseEntity.Title}"

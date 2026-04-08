@@ -9,13 +9,14 @@ namespace AuditSystem.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        /*------------------------------------------------------------------*/
         private readonly IMediator _mediator;
 
         public AuthController(IMediator mediator)
         {
             _mediator = mediator;
         }
-
+        /*------------------------------------------------------------------*/
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
@@ -26,5 +27,18 @@ namespace AuditSystem.API.Controllers
 
             return Ok(result);
         }
+        /*------------------------------------------------------------------*/
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
+        {
+            var result = await _mediator.Send(
+                new RegisterCommand(request.Name, request.Email, request.Password));
+
+            if (result == null)
+                return BadRequest("Email already exists.");
+
+            return Ok(result);
+        }
+        /*------------------------------------------------------------------*/
     }
 }

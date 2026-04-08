@@ -14,6 +14,7 @@ namespace AuditSystem.Application.Features.Enrollments.Handlers
 {
     public class CreateEnrollmentCommandHandler : IRequestHandler<CreateEnrollmentCommand, RequestResponse<EnrollmentDto>>
     {
+        /*------------------------------------------------------------------*/
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IAuditQueue _auditQueue;
@@ -24,7 +25,7 @@ namespace AuditSystem.Application.Features.Enrollments.Handlers
             _mapper = mapper;
             _auditQueue = auditQueue;
         }
-
+        /*------------------------------------------------------------------*/
         public async Task<RequestResponse<EnrollmentDto>> Handle(CreateEnrollmentCommand request, CancellationToken cancellationToken)
         {
             var course = await _unitOfWork.Courses.GetByIdAsync(request.CourseId);
@@ -61,5 +62,6 @@ namespace AuditSystem.Application.Features.Enrollments.Handlers
 
             return RequestResponse<EnrollmentDto>.Fail("Enrollment failed");
         }
+        /*------------------------------------------------------------------*/
     }
 }
