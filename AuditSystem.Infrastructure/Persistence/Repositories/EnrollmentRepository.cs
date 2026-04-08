@@ -44,6 +44,19 @@ namespace AuditSystem.Infrastructure.Persistence.Repositories
             return enrollment;
         }
         /*------------------------------------------------------------------*/
+        public async Task<IEnumerable<Enrollment>> GetUserEnrollmentsAsync(Guid userId)
+        {
+            var enrollments =  await _context.Enrollments
+                .Where(e => e.UserId == userId)
+                .Include(e => e.Course)
+                .ToListAsync();
+            if( enrollments != null )
+            {
+                return enrollments;
+            }
+            return null;
+        }
+        /*------------------------------------------------------------------*/
         public async Task AddAsync(Enrollment enrollment)
         {
             await _context.Enrollments.AddAsync(enrollment);

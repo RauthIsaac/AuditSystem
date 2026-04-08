@@ -45,6 +45,24 @@ namespace AuditSystem.API.Controllers
             return Ok(result);
         }
         /*------------------------------------------------------------------*/
+        [HttpGet("MyEnrollments")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> GetMyEnrollments()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            var result = await _mediator.Send(
+                new GetUserEnrollmentsQuery(Guid.Parse(userIdClaim)));
+
+            if (!result.IsSuccess)
+                return NotFound(result.Message);
+
+            return Ok(result);
+        }
+        /*------------------------------------------------------------------*/
         [HttpPost("CreateEnrollment")]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> CreateEnrollment([FromBody] CreateEnrollmentRequest request)

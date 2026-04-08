@@ -7,7 +7,7 @@ using AuditSystem.Application.Wrappers;
 
 namespace AuditSystem.Application.Features.Course.Queries
 {
-    public record GetCourceByIdQuery : IRequest<RequestResponse<CourseDto>>
+    public record GetCourceByIdQuery : IRequest<RequestResponse<CourseDetailsDto>>
     {
         public Guid Id;
         public GetCourceByIdQuery(Guid id)

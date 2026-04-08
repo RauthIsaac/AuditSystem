@@ -37,6 +37,14 @@ namespace AuditSystem.Application.Mapping
                 .ForMember(dest => dest.Enrollments, opt => opt.MapFrom(src => src.Enrollments))
                 .ReverseMap();
 
+            CreateMap<Course, CourseDetailsDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ReverseMap();
+
             CreateMap<CreateCourseCommand, Course>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))

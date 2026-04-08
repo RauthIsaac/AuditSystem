@@ -6,6 +6,8 @@ using AuditSystem.Infrastructure.BackgroundServices;
 using AuditSystem.Infrastructure.Persistence;
 using AuditSystem.Infrastructure.Persistence.Repositories;
 using AuditSystem.Infrastructure.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -97,6 +99,11 @@ public partial class Program
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+        #region Fluent Validation
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddValidatorsFromAssembly(Assembly.Load("AuditSystem.Application"));
+        #endregion
 
         #region Repositories
         builder.Services.AddScoped<IUserRepository, UserRepository>();

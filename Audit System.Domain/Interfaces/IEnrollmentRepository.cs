@@ -9,6 +9,7 @@ namespace Audit_System.Domain.Interfaces
     {
         Task<IEnumerable<Enrollment>> GetAllAsync();
         Task<Enrollment?> GetByIdAsync(Guid id);
+        Task<IEnumerable<Enrollment>> GetUserEnrollmentsAsync(Guid userId);
         Task AddAsync(Enrollment enrollment);
         Task UpdateAsync(Enrollment enrollment);
         Task DeleteAsync(Guid id);

@@ -71,14 +71,22 @@ namespace AuditSystem.API.Controllers
         /*------------------------------------------------------------------*/
         [HttpPut("UpdateCourse")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseCommand command)
+        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequest request)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userIdClaim))
                 return Unauthorized();
 
-            command.UserId = Guid.Parse(userIdClaim);
+            var command = new UpdateCourseCommand
+            {
+                Id = request.Id,
+                UserId = Guid.Parse(userIdClaim), 
+                Title = request.Title,
+                Description = request.Description,
+                Author = request.Author,
+                Price = request.Price
+            };
 
             var result = await _mediator.Send(command);
 

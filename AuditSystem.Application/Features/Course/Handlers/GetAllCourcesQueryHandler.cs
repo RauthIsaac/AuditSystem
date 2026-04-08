@@ -12,7 +12,7 @@ using AuditSystem.Application.Wrappers;
 
 namespace AuditSystem.Application.Features.Course.Handlers
 {
-    public class GetAllCourcesQueryHandler : IRequestHandler<GetAllCoursesQuery, RequestResponse<IEnumerable<CourseDto>>>
+    public class GetAllCourcesQueryHandler : IRequestHandler<GetAllCoursesQuery, RequestResponse<IEnumerable<CourseDetailsDto>>>
     {
         /*------------------------------------------------------------------*/
         readonly ICourseRepository _courseRepository;
@@ -23,15 +23,15 @@ namespace AuditSystem.Application.Features.Course.Handlers
             _mapper = mapper;
         }
         /*------------------------------------------------------------------*/
-        public async Task<RequestResponse<IEnumerable<CourseDto>>> Handle(GetAllCoursesQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResponse<IEnumerable<CourseDetailsDto>>> Handle(GetAllCoursesQuery request, CancellationToken cancellationToken)
         {
             var courses = await _courseRepository.GetAllAsync();
             if (courses == null || !courses.Any())
             {
-                return RequestResponse<IEnumerable<CourseDto>>.Fail("No courses found.");
+                return RequestResponse<IEnumerable<CourseDetailsDto>>.Fail("No courses found.");
             }
-            var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(courses);
-            return RequestResponse<IEnumerable<CourseDto>>.Success(courseDtos);
+            var courseDtos = _mapper.Map<IEnumerable<CourseDetailsDto>>(courses);
+            return RequestResponse<IEnumerable<CourseDetailsDto>>.Success(courseDtos);
         }
         /*------------------------------------------------------------------*/
     }

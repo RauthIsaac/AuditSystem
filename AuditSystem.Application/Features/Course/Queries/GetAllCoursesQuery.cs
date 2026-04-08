@@ -7,5 +7,5 @@ using AuditSystem.Application.Wrappers;
 
 namespace AuditSystem.Application.Features.Course.Queries
 {
-    public record GetAllCoursesQuery : IRequest<RequestResponse<IEnumerable<CourseDto>>>;
+    public record GetAllCoursesQuery : IRequest<RequestResponse<IEnumerable<CourseDetailsDto>>>;
 }

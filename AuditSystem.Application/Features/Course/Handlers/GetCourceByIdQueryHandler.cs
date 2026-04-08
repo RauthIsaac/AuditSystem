@@ -10,7 +10,7 @@ using AuditSystem.Application.Wrappers;
 
 namespace AuditSystem.Application.Features.Course.Handlers
 {
-    public class GetCourceByIdQueryHandler : IRequestHandler<GetCourceByIdQuery, RequestResponse<CourseDto>>
+    public class GetCourceByIdQueryHandler : IRequestHandler<GetCourceByIdQuery, RequestResponse<CourseDetailsDto>>
     {
         /*------------------------------------------------------------------*/
         private readonly ICourseRepository _courseRepository;
@@ -22,15 +22,15 @@ namespace AuditSystem.Application.Features.Course.Handlers
         }
 
         /*------------------------------------------------------------------*/
-        public async Task<RequestResponse<CourseDto>> Handle(GetCourceByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResponse<CourseDetailsDto>> Handle(GetCourceByIdQuery request, CancellationToken cancellationToken)
         {
             var course = await _courseRepository.GetByIdAsync(request.Id);
             if (course == null)
             {
-                return RequestResponse<CourseDto>.Fail("Course not found");
+                return RequestResponse<CourseDetailsDto>.Fail("Course not found");
             }
-            var courseDto = _mapper.Map<CourseDto>(course);
-            return RequestResponse<CourseDto>.Success(courseDto);
+            var courseDto = _mapper.Map<CourseDetailsDto>(course);
+            return RequestResponse<CourseDetailsDto>.Success(courseDto);
         }
         /*------------------------------------------------------------------*/
     }
